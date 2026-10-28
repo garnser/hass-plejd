@@ -110,7 +110,10 @@ class PlejdButtonEvent(PlejdDeviceBaseEntity, EventEntity):
         elif action == "click":
             self._trigger_event("click", {"on": event.get("on")})
         elif action == "dim":
-            self._trigger_event("dim", {
-                "brightness": event.get("brightness"),
-                "brightness_delta": event.get("brightness_delta"),
-            })
+            self._trigger_event(
+                "dim",
+                {
+                    "brightness": event.get("brightness"),
+                    "brightness_delta": event.get("brightness_delta"),
+                },
+            )

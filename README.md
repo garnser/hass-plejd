@@ -35,7 +35,26 @@ The current latest firmware for all devices seems to be `4.xx.xx` or higher.
 
 - All buttons connected to a device or WPH-01 should work and register events when the buttons are pressed.
 
-  - If the button is held for a while, a release even will be registered too. The required hold time doesn't seem entirely consistent, though...
+  - Existing `press` and `release` events remain available. A quick tap may emit
+    only `press`; the hold duration required for a release report varies.
+
+  - WPH-01 additionally exposes native gesture events, verified on firmware 4.41.3:
+
+    | Event type | Event attributes | Use |
+    | --- | --- | --- |
+    | `click` | `on` | A confirmed short tap, suitable for on/off actions. |
+    | `dim` | `brightness`, `brightness_delta` | Repeated level updates during a hold, suitable for brightness steps. |
+
+    Use `click` for single-tap actions and `dim` for hold actions instead of
+    inferring a hold from a missing release. The native brightness belongs to the
+    Plejd group and may differ from the target light; the first delta is zero.
+    Sending small steps on each `dim` event avoids leaving an external light
+    continuously dimming when a release packet is missed. A `release` event can
+    also explicitly stop dimming. Other firmware versions have not been verified.
+
+    Automations that trigger on every change of the event entity should filter
+    `event_type`; they will now also receive the additional `click` and `dim`
+    events. Existing `press` and `release` event names are unchanged.
 
 - Rotary dimmer WRT-01 should register and fire events when pushed.
 
