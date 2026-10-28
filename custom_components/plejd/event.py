@@ -80,7 +80,7 @@ class PlejdButtonEvent(PlejdDeviceBaseEntity, EventEntity):
     """Event for button presses in Plejd."""
 
     _attr_has_entity_name = True
-    _attr_event_types = ["press", "release"]
+    _attr_event_types = ["press", "release", "click", "dim"]
     _attr_device_class = EventDeviceClass.BUTTON
 
     def __init__(self, device: dt.PlejdButton) -> None:
@@ -107,3 +107,10 @@ class PlejdButtonEvent(PlejdDeviceBaseEntity, EventEntity):
             self._trigger_event("press")
         elif action == "release":
             self._trigger_event("release")
+        elif action == "click":
+            self._trigger_event("click", {"on": event.get("on")})
+        elif action == "dim":
+            self._trigger_event("dim", {
+                "brightness": event.get("brightness"),
+                "brightness_delta": event.get("brightness_delta"),
+            })
