@@ -1,0 +1,8 @@
+{
+  "upstream_version": "0.22.1",
+  "integration_pr": 183,
+  "integration_commit": "974825dd694ed245ea100c28343c15ad8404e60a",
+  "library_pr": 30,
+  "library_commit": "8ba4df6a34a713e0481ad2d29da98d41bb1f1eab",
+  "local_fix": "Preserve device records when multi-output primary changes"
+}

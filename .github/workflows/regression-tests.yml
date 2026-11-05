@@ -1,0 +1,26 @@
+name: Plejd regression tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  button-replays:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - run: pip install aiohttp bleak bleak-retry-connector pydantic cryptography
+      - run: PYTHONPATH="$PWD/custom_components/plejd" python -m unittest discover -s tests/library -v
+
+  home-assistant-runtime:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - run: pip install homeassistant==2026.10.4 pyplejd==0.22.1
+      - run: PYTHONPATH="$PWD" python -m unittest discover -s tests/runtime -v

@@ -12,7 +12,7 @@ from homeassistant.config_entries import ConfigFlow, ConfigEntry, FlowResult
 from homeassistant.components import bluetooth
 from homeassistant.const import CONF_USERNAME, CONF_PASSWORD
 
-from pyplejd import get_sites, verify_credentials, AuthenticationError, ConnectionError
+from .pyplejd import get_sites, verify_credentials, AuthenticationError, ConnectionError
 from .const import DOMAIN, CONF_SITE_ID, CONF_SITE_TITLE
 
 _LOGGER = logging.getLogger(__name__)

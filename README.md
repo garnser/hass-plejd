@@ -1,5 +1,39 @@
 # Plejd integration for Home Assistant
 
+## This fork
+
+This fork tracks upstream **0.22.1** and includes the WPH-01 native button events
+from [hass-plejd #183](https://github.com/thomasloven/hass-plejd/pull/183) and
+[pyplejd #30](https://github.com/thomasloven/pyplejd/pull/30).
+The patched library is bundled under `custom_components/plejd/pyplejd` so installing
+the integration includes the unreleased library changes. Runtime imports use that
+copy; the development submodule points to the library fork at the same PR commit.
+
+It also repairs startup collisions when cloud ordering changes the primary output
+of a multi-output device such as DIM-02. Only the Bluetooth connection and parent
+link are reconciled; existing device IDs, entity IDs and user settings are retained.
+
+The installed build is `0.22.1+pr183.20261105`. The deployed source is recorded in
+`custom_components/plejd/deployment.json`. There are 20 library packet-replay tests
+and five native Home Assistant tests, including a regression for the DIM-02
+collision. A live BLE on/brightness/off test passed. The upgraded installation
+has not had a fresh physical WPH-01 tap/hold test; firmware-specific limitations
+of the native gesture reports still apply.
+
+To retain this fork's changes with HACS, add
+`https://github.com/garnser/hass-plejd` as a custom integration repository and
+install this fork's `master` build. Installing the upstream repository instead
+replaces the additional changes. For manual installation, copy this repository's
+`custom_components/plejd` directory into the HA configuration and restart HA.
+
+Run the tests with Python 3.14:
+
+```sh
+pip install homeassistant==2026.10.4 pyplejd==0.22.1
+PYTHONPATH="$PWD/custom_components/plejd" python -m unittest discover -s tests/library -v
+PYTHONPATH="$PWD" python -m unittest discover -s tests/runtime -v
+```
+
 <img src="https://github.com/thomasloven/hass_plejd/assets/1299821/39d94f4b-bb56-43b3-9177-5be20cd91508" width="50%">
 
 Connects to your [Plejd](https://www.plejd.com) devices using your Home Assistant Bluetooth.

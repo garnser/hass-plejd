@@ -14,3 +14,4 @@ custom_components/*/
 !.vscode/
 !.github/
 !parse_json.py
+!tests/

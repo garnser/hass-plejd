@@ -13,7 +13,7 @@ from homeassistant.helpers.storage import Store
 
 from home_assistant_bluetooth import BluetoothServiceInfoBleak
 
-from pyplejd import (
+from .pyplejd import (
     PlejdManager,
     ConnectionError,
     AuthenticationError,
@@ -23,6 +23,7 @@ from pyplejd import (
 
 from .const import DOMAIN
 from .plejd_entity import register_unknown_device
+from .registry_migration import reconcile_primary_connections
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -86,6 +87,7 @@ class PlejdSite:
         await self.manager.init(cached_site_data)
 
         self.devices = self.manager.devices
+        reconcile_primary_connections(self.hass, self.devices, self.config_entry.entry_id)
 
     async def start(self) -> None:
         """Setup and connect to plejd site."""

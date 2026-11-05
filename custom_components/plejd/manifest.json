@@ -25,5 +25,5 @@
     "pyplejd==0.22.1",
     "pydantic"
   ],
-  "version": "0.22.1"
+  "version": "0.22.1+pr183.20261105"
 }
