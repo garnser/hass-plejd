@@ -30,6 +30,7 @@ Run the tests with Python 3.14:
 
 ```sh
 pip install homeassistant==2026.10.4 pyplejd==0.22.1
+python tests/runtime/install_dependencies.py
 PYTHONPATH="$PWD/custom_components/plejd" python -m unittest discover -s tests/library -v
 PYTHONPATH="$PWD" python -m unittest discover -s tests/runtime -v
 ```
