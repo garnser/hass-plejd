@@ -26,13 +26,15 @@ install this fork's `master` build. Installing the upstream repository instead
 replaces the additional changes. For manual installation, copy this repository's
 `custom_components/plejd` directory into the HA configuration and restart HA.
 
-Run the tests with Python 3.14:
+Run the packet tests with Python 3.14 and native API tests in the official HA image:
 
 ```sh
-pip install homeassistant==2026.10.4 pyplejd==0.22.1
-python tests/runtime/install_dependencies.py
+pip install pyplejd==0.22.1 cryptography
 PYTHONPATH="$PWD/custom_components/plejd" python -m unittest discover -s tests/library -v
-PYTHONPATH="$PWD" python -m unittest discover -s tests/runtime -v
+docker run --rm --entrypoint python \
+  -e PYTHONPATH=/workspace -v "$PWD:/workspace" -w /workspace \
+  ghcr.io/home-assistant/home-assistant:2026.10.4 \
+  -m unittest discover -s tests/runtime -v
 ```
 
 <img src="https://github.com/thomasloven/hass_plejd/assets/1299821/39d94f4b-bb56-43b3-9177-5be20cd91508" width="50%">

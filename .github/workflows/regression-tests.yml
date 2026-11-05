@@ -19,9 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.14'
-      - run: pip install homeassistant==2026.10.4 pyplejd==0.22.1
-      - run: python tests/runtime/install_dependencies.py
-      - run: PYTHONPATH="$PWD" python -m unittest discover -s tests/runtime -v
+      - name: Run native API tests in the complete Home Assistant runtime
+        run: |
+          docker run --rm --entrypoint python \
+            -e PYTHONPATH=/workspace -v "$PWD:/workspace" -w /workspace \
+            ghcr.io/home-assistant/home-assistant:2026.10.4 \
+            -m unittest discover -s tests/runtime -v
